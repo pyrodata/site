@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'Bitcount';
+	src: url('./Bitcount.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	ascent-override: 100%;
+}
