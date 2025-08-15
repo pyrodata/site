@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AspectRatio } from '$lib/components/ui/aspect';
-	import { getAssetUrl } from '$lib/utils';
+	import { getAssetUrlWithFallback } from '$lib/utils';
 
 	let { data } = $props();
 
@@ -21,22 +21,22 @@
 					<div class="p-[4px]">
 						<AspectRatio
 							ratio={16 / 9}
-							src={getAssetUrl(chemical.collectionId, chemical.id, chemical.thumbnail)}
+							src={getAssetUrlWithFallback(chemical.collectionId, chemical.id, chemical.thumbnail)}
 							alt={chemical.title}
 						/>
 					</div>
 					<div class="px-4">
-						<h4 class="font-semibold">{chemical.title}</h4>
+						<h4 class="truncate font-semibold">{chemical.title}</h4>
 						<span class="flex items-center gap-1">
-							<small class="font-medium text-gray-400">{chemical.formula}</small>
-							<small class="font-medium text-gray-400">{chemical.casNumber}</small>
+							<small class="w-16 truncate font-medium text-gray-400">{chemical.formula}</small>
+							<small class="w-16 truncate font-medium text-gray-400">{chemical.casNumber}</small>
 						</span>
 					</div>
 					<div class="flex gap-1 px-4 pb-4">
 						{#each chemical.hazards as hazard}
 							<img
 								class="h-7 w-7"
-								src={getAssetUrl(hazard.collectionId, hazard.id, hazard.image)}
+								src={getAssetUrlWithFallback(hazard.collectionId, hazard.id, hazard.image)}
 								alt={hazard.title}
 							/>
 						{/each}

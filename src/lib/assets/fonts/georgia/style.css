@@ -1,0 +1,35 @@
+@font-face {
+	font-family: 'Georgia';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Georgia Regular'),
+		url('georgia.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Georgia';
+	font-style: italic;
+	font-weight: 400;
+	src:
+		local('Georgia Italic'),
+		url('georgiai.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Georgia';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local('Georgia Bold'),
+		url('georgiab.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'Georgia';
+	font-style: italic;
+	font-weight: 700;
+	src:
+		local('Georgia Bold Italic'),
+		url('georgiaz.woff') format('woff');
+}

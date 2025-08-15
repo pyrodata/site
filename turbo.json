@@ -8,6 +8,10 @@
 		"dev": {
 			"persistent": true,
 			"cache": false
+		},
+		"pocketbase:types": {
+			"persistent": true,
+			"cache": false
 		}
 	}
 }

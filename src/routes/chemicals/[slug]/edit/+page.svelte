@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { AuthorCard } from '$lib/components/ui/cards';
+	import RichText from '$lib/components/ui/input/richText.svelte';
 	import { TagList, TagListItem } from '$lib/components/ui/list';
 	import TagListDivider from '$lib/components/ui/list/tag-list-divider.svelte';
 	import { getAssetUrlWithFallback, toFormula } from '$lib/utils';
@@ -33,9 +34,7 @@
 			</div>
 		</header>
 		<div class="mx-auto max-w-3xl px-12 py-8">
-			<div class="prose max-w-full">
-				{@html data.chemical.description}
-			</div>
+			<RichText />
 		</div>
 		<footer class="flex items-start border-t border-muted bg-gray-50 px-12 py-8">
 			<span class="flex items-center gap-4 text-sm [&>a]:text-gray-500">
@@ -60,34 +59,6 @@
 		</section>
 		<section class="m-2">
 			<h4 class="mb-2 px-4 text-lg font-bold">Properties</h4>
-			<div class="grid grid-cols-2 divide-x divide-muted py-0.5 [&_span]:px-4">
-				<span>Molar mass</span>
-				<span>{data.chemical.properties?.molarMass} g/mol</span>
-			</div>
-			<div class="grid grid-cols-2 divide-x divide-muted py-0.5 [&_span]:px-4">
-				<span>Melting point</span>
-				{#if data.chemical.properties?.meltingPoint === -1}
-					<span>N/A</span>
-				{:else}
-					<span>{data.chemical.properties?.meltingPoint} °C</span>
-				{/if}
-			</div>
-			<div class="grid grid-cols-2 divide-x divide-muted py-0.5 [&_span]:px-4">
-				<span>Boiling point</span>
-				{#if data.chemical.properties?.boilingPoint === -1}
-					<span>N/A</span>
-				{:else}
-					<span>{data.chemical.properties?.boilingPoint} °C</span>
-				{/if}
-			</div>
-			<div class="grid grid-cols-2 divide-x divide-muted py-0.5 [&_span]:px-4">
-				<span>Density</span>
-				<span>{data.chemical.properties?.density} g/cm³</span>
-			</div>
-			<div class="mt-2 grid grid-cols-1 py-0.5 [&_span]:px-4">
-				<span class="font-bold">Solubility</span>
-				<span>{data.chemical.properties?.solubility}</span>
-			</div>
 		</section>
 	</aside>
 </div>

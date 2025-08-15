@@ -15,6 +15,7 @@ export enum Collections {
 	Chemicals = "chemicals",
 	CompositionCategories = "composition_categories",
 	Hazards = "hazards",
+	UserRanks = "user_ranks",
 	Users = "users",
 }
 
@@ -105,6 +106,7 @@ export type ChemicalCategoriesRecord = {
 }
 
 export type ChemicalsRecord<Tproperties = unknown> = {
+	author: RecordIdString
 	casNumber?: string
 	categories?: RecordIdString[]
 	created?: IsoDateString
@@ -139,14 +141,27 @@ export type HazardsRecord = {
 	updated?: IsoDateString
 }
 
+export type UserRanksRecord<Tscopes = unknown> = {
+	color?: string
+	created?: IsoDateString
+	description: HTMLString
+	elo: number
+	id: string
+	name: string
+	scopes?: null | Tscopes
+	updated?: IsoDateString
+}
+
 export type UsersRecord = {
 	avatar?: string
 	created?: IsoDateString
+	elo?: number
 	email: string
 	emailVisibility?: boolean
 	id: string
 	name?: string
 	password: string
+	rank?: RecordIdString
 	tokenKey: string
 	updated?: IsoDateString
 	verified?: boolean
@@ -162,6 +177,7 @@ export type ChemicalCategoriesResponse<Texpand = unknown> = Required<ChemicalCat
 export type ChemicalsResponse<Tproperties = unknown, Texpand = unknown> = Required<ChemicalsRecord<Tproperties>> & BaseSystemFields<Texpand>
 export type CompositionCategoriesResponse<Texpand = unknown> = Required<CompositionCategoriesRecord> & BaseSystemFields<Texpand>
 export type HazardsResponse<Texpand = unknown> = Required<HazardsRecord> & BaseSystemFields<Texpand>
+export type UserRanksResponse<Tscopes = unknown, Texpand = unknown> = Required<UserRanksRecord<Tscopes>> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -176,6 +192,7 @@ export type CollectionRecords = {
 	chemicals: ChemicalsRecord
 	composition_categories: CompositionCategoriesRecord
 	hazards: HazardsRecord
+	user_ranks: UserRanksRecord
 	users: UsersRecord
 }
 
@@ -189,6 +206,7 @@ export type CollectionResponses = {
 	chemicals: ChemicalsResponse
 	composition_categories: CompositionCategoriesResponse
 	hazards: HazardsResponse
+	user_ranks: UserRanksResponse
 	users: UsersResponse
 }
 
@@ -205,5 +223,6 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'chemicals'): RecordService<ChemicalsResponse>
 	collection(idOrName: 'composition_categories'): RecordService<CompositionCategoriesResponse>
 	collection(idOrName: 'hazards'): RecordService<HazardsResponse>
+	collection(idOrName: 'user_ranks'): RecordService<UserRanksResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }

@@ -4,17 +4,19 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 
 	import '$lib/assets/fonts/bitcount/style.css';
+	import '$lib/assets/fonts/georgia/style.css';
+	import '$lib/assets/fonts/cheltenham/style.css';
 	import '../app.css';
 
 	let { children } = $props();
 </script>
 
 <div class="flex h-screen flex-col">
-	<header class="border-b border-muted bg-gray-50" id="header">
+	<header class="border-b border-muted bg-gray-900" id="header">
 		<div class="container mx-auto grid grid-cols-[240px_1fr]">
 			<a
 				href="/"
-				class="flex h-15 items-center border-r border-muted font-bitcount text-2xl font-semibold"
+				class="flex h-15 items-center border-r border-gray-700 font-bitcount text-2xl font-semibold text-white hover:text-primary-300"
 			>
 				Pyrodata
 			</a>

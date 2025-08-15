@@ -2,14 +2,17 @@ import type {
 	ChemicalsResponse,
 	HazardsResponse,
 	ChemicalsRecord,
-	ChemicalCategoriesResponse
-} from '../../pocketbase';
+	ChemicalCategoriesResponse,
+	UsersResponse,
+	UserRanksResponse
+} from '$pocketbase';
 import { ServiceBase } from './service-base';
 import { fromPromise, ResultAsync } from 'neverthrow';
 
 export type ChemicalExpand = {
 	hazards: HazardsResponse[];
 	categories: ChemicalCategoriesResponse[];
+	author: UsersResponse<{ rank: UserRanksResponse }>;
 };
 
 export type ChemicalFilters = {
@@ -54,7 +57,7 @@ export const CHEMICAL_ERRORS = {
 
 export class ChemicalsService extends ServiceBase {
 	private readonly COLLECTION_NAME = 'chemicals';
-	private readonly DEFAULT_EXPAND = 'hazards,categories';
+	private readonly DEFAULT_EXPAND = 'hazards,categories,author,author.rank';
 
 	/**
 	 * Get all chemicals with optional filtering and pagination
@@ -64,7 +67,7 @@ export class ChemicalsService extends ServiceBase {
 
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getList(filters.page || 1, filters.limit || 50, {
 					expand: this.DEFAULT_EXPAND,
 					...queryParams
@@ -84,7 +87,7 @@ export class ChemicalsService extends ServiceBase {
 
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getFullList({
 					expand: this.DEFAULT_EXPAND,
 					...queryParams
@@ -99,7 +102,7 @@ export class ChemicalsService extends ServiceBase {
 	getChemicalById(id: string) {
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getOne(id, {
 					expand: this.DEFAULT_EXPAND
 				}),
@@ -113,7 +116,7 @@ export class ChemicalsService extends ServiceBase {
 	getChemicalBySlug(slug: string) {
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getFirstListItem(`slug="${slug}"`, {
 					expand: this.DEFAULT_EXPAND
 				}),
@@ -125,10 +128,10 @@ export class ChemicalsService extends ServiceBase {
 	 * Create a new chemical
 	 */
 	createChemical(data: CreateChemicalData) {
-		return fromPromise(
-			this.services.pb.collection(this.COLLECTION_NAME).create(data),
-			() => CHEMICAL_ERRORS.CREATE_FAILED
-		);
+		return fromPromise(this.services.pb.collection(this.COLLECTION_NAME).create(data), (e) => {
+			console.error('Error creating chemical:', e);
+			return CHEMICAL_ERRORS.CREATE_FAILED;
+		});
 	}
 
 	/**
@@ -159,7 +162,7 @@ export class ChemicalsService extends ServiceBase {
 
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getList(1, limit, {
 					filter: searchFilter,
 					expand: this.DEFAULT_EXPAND,
@@ -180,7 +183,7 @@ export class ChemicalsService extends ServiceBase {
 
 		return fromPromise(
 			this.services.pb
-				.collection<ChemicalsResponse<unknown, ChemicalExpand>>(this.COLLECTION_NAME)
+				.collection<ChemicalsResponse<Record<string, any>, ChemicalExpand>>(this.COLLECTION_NAME)
 				.getList(1, limit, {
 					filter: hazardFilter,
 					expand: this.DEFAULT_EXPAND,
@@ -196,10 +199,13 @@ export class ChemicalsService extends ServiceBase {
 	/**
 	 * Transform chemical response to include hazards at top level
 	 */
-	private transformChemicalResponse = (chemical: ChemicalsResponse<unknown, ChemicalExpand>) => ({
+	private transformChemicalResponse = (
+		chemical: ChemicalsResponse<Record<string, any>, ChemicalExpand>
+	) => ({
 		...chemical,
 		hazards: chemical.expand?.hazards || [],
-		categories: chemical.expand?.categories || []
+		categories: chemical.expand?.categories || [],
+		author: chemical.expand?.author || null
 	});
 
 	/**

@@ -2,6 +2,7 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
+	--color-primary: oklch(52% 0.2 300);
 	--color-primary-50: oklch(96% 0.02 300);
 	--color-primary-100: oklch(90% 0.04 300);
 	--color-primary-200: oklch(82% 0.08 300);
@@ -13,6 +14,7 @@
 	--color-primary-800: oklch(22% 0.14 300);
 	--color-primary-900: oklch(12% 0.12 300);
 	--color-primary-950: oklch(6% 0.1 300);
+
 	--color-gray-50: oklch(96% 0 0);
 	--color-gray-100: oklch(90% 0 0);
 	--color-gray-200: oklch(82% 0 0);
@@ -24,8 +26,30 @@
 	--color-gray-800: oklch(22% 0 0);
 	--color-gray-900: oklch(12% 0 0);
 	--color-gray-950: oklch(6% 0 0);
-	--color-accent: #f4f3f6;
+
+	--color-accent: var(--color-gray-100);
 	--color-muted: var(--color-gray-300);
 
+	--font-header: 'ITC Cheltenham Std', serif;
+	--font-georgia: 'Georgia', serif;
 	--font-bitcount: 'Bitcount', sans-serif;
+}
+
+@layer base {
+	body {
+		font-family: var(--font-georgia);
+	}
+
+	a {
+		color: var(--color-primary-500);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-header);
+	}
 }
