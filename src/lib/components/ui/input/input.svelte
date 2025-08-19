@@ -11,10 +11,7 @@
 </script>
 
 <input
-	class={cn(
-		'border border-gray-200 bg-white px-4 py-1.5 transition-colors focus:outline-none',
-		restProps.class
-	)}
+	class={cn('w-full focus:outline-none', restProps.class)}
 	{type}
 	{placeholder}
 	aria-invalid={invalid ? 'true' : undefined}

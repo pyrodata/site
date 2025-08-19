@@ -7,6 +7,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
+		experimental: {
+			remoteFunctions: true
+		},
 		adapter: adapter(),
 		alias: {
 			$pocketbase: './src/pocketbase.d.ts'
