@@ -6,8 +6,7 @@
 	"scripts": {
 		"pocketbase:serve": "./pocketbase/pocketbase serve",
 		"pocketbase:dev": "pnpm run pocketbase:serve & nodemon --watch pocketbase/pb_migrations --exec \"npx pocketbase-typegen --db ./pocketbase/pb_data/data.db --out ./src/pocketbase.d.ts\"",
-		"dev": "vite dev",
-		"dev:all": "pnpm run pocketbase:dev & pnpm run dev",
+		"dev": "pnpm run pocketbase:dev & vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
